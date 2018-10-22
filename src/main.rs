@@ -1,22 +1,35 @@
 fn main() {
-    println!("Hello, world!");
+    let primes = sieve_of_eratosthenes(200000000);
+
+    for i in &primes {
+        println!("> {}", i);
+    }
+
+    println!("{} primes found", primes.len());
 }
 
 
+fn sieve_of_eratosthenes(max: usize) -> Vec<u32> {
+    // Create sieve array
+    let mut sieve = vec![true; max];
+    sieve[0] = false;
+    sieve[1] = false;
 
+    let end = (max as f64).sqrt() as usize + 1;
+    let mut result = Vec::new();
 
-fn sieve_of_eratosthenes(max: i32) -> Vec<bool> {
-    // add code here
-    let mut sieve = vec![true; max as usize];
-    let end = (max as f64).sqrt() as i32 + 1;
-
-    for i in 2..end {
+    for i in 2..max {
         if sieve[i as usize] == true {
-        	for j in i.. {
-        	    // add code here
-        	}
+            if i < end {
+                let mut j = (i*i) as usize;
+                while j < max {
+                    sieve[j] = false;
+                    j += i as usize;
+                }
+            }
+            result.push(i as u32);
         }
     }
 
-    sieve
+    result
 }
